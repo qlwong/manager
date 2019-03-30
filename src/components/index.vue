@@ -27,14 +27,16 @@
               <span>导航一</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1">
+              <el-menu-item index="users">
                 <span class="el-icon-menu"></span> 选项1
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main class="my_main">Main</el-main>
+      <el-main class="my_main">
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -61,10 +63,11 @@ export default {
   .my_container {
     flex: 1;
     .my_aside {
-      background-color: yellowgreen;
+      background-color: white;
     }
     .my_main {
-      background-color: skyblue;
+      background-color: #e8edf3;
+     padding-top: 0;
     }
   }
 }

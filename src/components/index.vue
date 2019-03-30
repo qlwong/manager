@@ -1,18 +1,14 @@
 <template>
     <div>
-      <router-view></router-view>
+        
+    首页
     </div>
 </template>
-
 <script>
-
-
 export default {
-  name: 'app',
-  
+    name:'index',
 }
 </script>
-
-<style>
-
+<style lang="">
+    
 </style>

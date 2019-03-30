@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="login">
         登录页
 
     </div>
@@ -9,6 +9,9 @@ export default {
     name:'login',
 }
 </script>
-<style lang="">
+<style lang="scss">
+ .login{
+     color:red;
+ }
     
 </style>

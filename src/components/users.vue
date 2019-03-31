@@ -10,7 +10,7 @@
     <el-row>
       <el-col :span="6">
         <el-input placeholder="请输入内容" v-model="userData.query">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>
       <el-col :span="3">
@@ -65,16 +65,18 @@ export default {
     };
   },
   methods: {
-    handleDelete(index, row) {}
+    handleDelete(index, row) {},
+    async search() {
+      let res = await this.$axios.get("users", {
+        params: this.userData
+      });
+      console.log(res);
+      this.userlist = res.data.data.users;
+      this.total = res.data.data.total;
+    }
   },
-  async created() {
-    let res = await this.$axios.get("users", {
-      headers: { Authorization: window.sessionStorage.getItem("token") },
-      params: this.userData
-    });
-    console.log(res);
-    this.userlist = res.data.data.users;
-    this.total = res.data.data.total;
+  created() {
+    this.search()
   }
 };
 </script>

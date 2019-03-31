@@ -15,7 +15,7 @@
     </el-header>
     <el-container class="my_container">
       <el-aside width="200px" class="my_aside">
-        <el-menu default-active="2" class="el-menu-vertical-demo">
+        <el-menu default-active="2" router class="el-menu-vertical-demo">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>

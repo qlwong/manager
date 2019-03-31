@@ -29,8 +29,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "",
-        password: ""
+        username: "admin",
+        password: "123456"
       },
       rules: {
         username: [
@@ -46,16 +46,30 @@ export default {
   },
   methods: {
     submit(formName) {
-      this.$refs[formName].validate(valid=>{
-        if(valid){
+      this.$refs[formName].validate(async valid => {
+        if (valid) {
+          // 验证成功
+          let res = await this.$axios.post("login", this.loginForm);
+          // console.log(res);
 
-        }else{
-          this.$message.error('数据类型错误,根据提示重写');
+          if (res.data.meta.status === 400) {
+            //  错误
+            this.$message.error(res.data.meta.msg);
+          } else {
+            //成功
+            this.$message.success(res.data.meta.msg);
+            // 设置token
+            window.sessionStorage.setItem("token", res.data.data.token);
+            // 页面跳转到主页,用编程式方式
+            this.$router.push("/");
+          }
+        } else {
+          this.$message.error("数据类型错误,根据提示重写");
           return false;
         }
-      })
+      });
     },
-    resetForm(formName){
+    resetForm(formName) {
       this.$refs[formName].resetFields();
     }
   }

@@ -24,7 +24,7 @@
       <el-table-column prop="mobile" label="电话"></el-table-column>
       <el-table-column prop="mg_state" label="用户状态">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          <el-switch @change="stateChange(scope.row)" v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -73,6 +73,9 @@ export default {
       console.log(res);
       this.userlist = res.data.data.users;
       this.total = res.data.data.total;
+    },
+    stateChange(row){
+      this.$axios.put(`users/${row.id}/state/${row.mg_state}`)
     }
   },
   created() {

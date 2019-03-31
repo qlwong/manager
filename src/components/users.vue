@@ -18,10 +18,28 @@
       </el-col>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="userlist" style="width: 100%">
-      <el-table-column prop="date" label="日期" width="180"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="address" label="地址"></el-table-column>
+    <el-table :data="userlist" style="width: 100%" border>
+      <el-table-column prop="username" label="姓名" width="180"></el-table-column>
+      <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+      <el-table-column prop="mobile" label="电话"></el-table-column>
+      <el-table-column prop="mg_state" label="用户状态">
+        <template slot-scope="scope">
+          <el-switch v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="primary"
+            icon="el-icon-edit"
+            @click="handleDelete(scope.$index, scope.row)"
+            plain
+          ></el-button>
+          <el-button size="mini" type="danger" icon="el-icon-delete" plain></el-button>
+          <el-button size="mini" type="warning" icon="el-icon-check" plain></el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination
@@ -43,8 +61,11 @@ export default {
         pagesize: 10
       },
       userlist: [],
-      total: 0,
+      total: 0
     };
+  },
+  methods: {
+    handleDelete(index, row) {}
   },
   async created() {
     let res = await this.$axios.get("users", {
@@ -52,10 +73,8 @@ export default {
       params: this.userData
     });
     console.log(res);
-    this.userlist=res.data.data.users;
-    this.total=res.data.data.total;
-    this.userData.pagenum=res.data.data.pagenum;
-    // this.userData.pagesize=res.data.data.pagenum;
+    this.userlist = res.data.data.users;
+    this.total = res.data.data.total;
   }
 };
 </script>

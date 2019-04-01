@@ -15,17 +15,16 @@
     </el-header>
     <el-container class="my_container">
       <el-aside width="200px" class="my_aside">
-        <el-menu default-active="2" router class="el-menu-vertical-demo">
-          <el-submenu index="1">
+        <el-menu default-active="users" router class="el-menu-vertical-demo">
+          <el-submenu :index="item.id" v-for="item in menuslist">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span>{{item.authName}}</span>
             </template>
-            <el-menu-item-group>
-              <el-menu-item index="users">
-                <span class="el-icon-menu"></span> 选项1
-              </el-menu-item>
-            </el-menu-item-group>
+            <el-menu-item :index="it.path" v-for="it in item.children" >
+              <span class="el-icon-menu"></span>
+              {{it.authName}}
+            </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -38,6 +37,11 @@
 <script>
 export default {
   name: "index",
+  data() {
+    return {
+      menuslist: []
+    };
+  },
   methods: {
     logout() {
       // 退出登录
@@ -54,6 +58,11 @@ export default {
       this.$message.error("请登录");
       this.$router.push("/login");
     }
+  },
+  async created() {
+    // 请求页面左侧的数据
+    let res = await this.$axios.get("menus");
+    this.menuslist = res.data.data;
   }
 };
 </script>

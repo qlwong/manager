@@ -58,6 +58,8 @@
       :page-size="userData.pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
+      @current-change="currentChange"
+      @size-change="sizeChange"
     ></el-pagination>
     <!-- 添加用户弹框 -->
     <el-dialog title="添加用户" :visible.sync="addFormVisible">
@@ -274,6 +276,16 @@ export default {
         // 重新获取数据
         this.search();
       }
+    },
+    // 页码改变
+    currentChange(current){
+      this.userData.pagenum=current;
+      this.search();
+    },
+    // 页容量改变
+    sizeChange(size){
+       this.userData.pagesize=size;
+      this.search();
     },
   },
   created() {

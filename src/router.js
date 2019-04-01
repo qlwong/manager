@@ -12,6 +12,7 @@ import categories from "./components/categories.vue";
 import goods from "./components/goods.vue";
 import orders from "./components/orders.vue";
 import params from "./components/params.vue";
+import reports from "./components/reports.vue";
 
 // 路由规则
 let routes = [
@@ -50,6 +51,10 @@ let routes = [
           {
                path:'params' ,
                component:params
+          },
+          {
+               path:'reports' ,
+               component:reports
           },
     ]
   }

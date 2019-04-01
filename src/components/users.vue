@@ -1,7 +1,7 @@
 <template>
   <div class="user-container">
     <!-- 面包屑 -->
-      <my-break sectitle="用户管理" thirdtitle="用户列表"></my-break>
+    <my-break sectitle="用户管理" thirdtitle="用户列表"></my-break>
     <!-- 搜索框 -->
     <el-row>
       <el-col :span="6">
@@ -15,6 +15,7 @@
     </el-row>
     <!-- 表格 -->
     <el-table :data="userlist" style="width: 100%" border>
+      <el-table-column type="index" width="50"></el-table-column>
       <el-table-column prop="username" label="姓名" width="180"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
       <el-table-column prop="mobile" label="电话"></el-table-column>
@@ -44,7 +45,13 @@
             icon="el-icon-delete"
             plain
           ></el-button>
-          <el-button @click="showRole(scope.row)" size="mini" type="warning" icon="el-icon-check" plain></el-button>
+          <el-button
+            @click="showRole(scope.row)"
+            size="mini"
+            type="warning"
+            icon="el-icon-check"
+            plain
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -121,6 +128,7 @@
 
 <script>
 export default {
+  name:'users',
   data() {
     return {
       userData: {
@@ -159,7 +167,7 @@ export default {
         ]
       },
       // 角色编辑弹窗是否显示
-      roleFormVisible:false,
+      roleFormVisible: false,
       // 角色列表
       rolelist: [],
       // 当前编辑的角色信息
@@ -251,38 +259,38 @@ export default {
         });
     },
     // 弹出角色框
-    async showRole(row){
-      this.roleFormVisible=true;
+    async showRole(row) {
+      this.roleFormVisible = true;
       // 保存编辑的用户信息
-      this.editUser=row;
+      this.editUser = row;
       // 获取角色列表
-      let res=await this.$axios.get('roles');
-      this.rolelist=res.data.data;
+      let res = await this.$axios.get("roles");
+      this.rolelist = res.data.data;
     },
     // 分配角色
-    async submitRole(formName){
+    async submitRole(formName) {
       // 获取角色id
       // 获取用户id
-     let res=await this.$axios.put(`users/${this.editUser.id}/role`,{
-        rid:this.editUser.role_name
+      let res = await this.$axios.put(`users/${this.editUser.id}/role`, {
+        rid: this.editUser.role_name
       });
-      if(res.data.meta.status===200){
+      if (res.data.meta.status === 200) {
         // 关闭弹窗
-        this.roleFormVisible=false;
+        this.roleFormVisible = false;
         // 重新获取数据
         this.search();
       }
     },
     // 页码改变
-    currentChange(current){
-      this.userData.pagenum=current;
+    currentChange(current) {
+      this.userData.pagenum = current;
       this.search();
     },
     // 页容量改变
-    sizeChange(size){
-       this.userData.pagesize=size;
+    sizeChange(size) {
+      this.userData.pagesize = size;
       this.search();
-    },
+    }
   },
   created() {
     this.search();
@@ -293,6 +301,5 @@ export default {
 <style lang='scss'>
 .user-container {
   background-color: #eeeeff;
- 
 }
 </style>

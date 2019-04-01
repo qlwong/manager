@@ -17,5 +17,6 @@ export default {
   height: 40px;
   line-height: 40px;
   background-color: #ddddee;
+  padding-left: 10px;
 }
 </style>

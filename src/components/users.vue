@@ -48,7 +48,7 @@
             icon="el-icon-delete"
             plain
           ></el-button>
-          <el-button size="mini" type="warning" icon="el-icon-check" plain></el-button>
+          <el-button @click="showRole(scope.row)" size="mini" type="warning" icon="el-icon-check" plain></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,7 +98,26 @@
         <el-button type="primary" @click="submitEdit('editForm')">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 删除确认弹窗 -->
+    <!-- 编辑角色的弹框 -->
+    <el-dialog title="用户角色" :visible.sync="roleFormVisible">
+      <el-form :model="editForm">
+        <el-form-item label="当前用户" label-width="100px">{{editUser.username}}</el-form-item>
+        <el-form-item label="请选择角色" label-width="100px">
+          <el-select v-model="editUser.role_name" placeholder="请选择">
+            <el-option
+              v-for="item in rolelist"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="roleFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitRole('editForm')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -140,7 +159,13 @@ export default {
           { required: true, message: "请输入密码", trigger: "blur" },
           { min: 6, max: 16, message: "长度在 6 到 16 个字符", trigger: "blur" }
         ]
-      }
+      },
+      // 角色编辑弹窗是否显示
+      roleFormVisible:false,
+      // 角色列表
+      rolelist: [],
+      // 当前编辑的角色信息
+      editUser: {}
     };
   },
   methods: {
@@ -215,8 +240,8 @@ export default {
       })
         .then(async () => {
           // 调用接口
-          let res=await this.$axios.delete(`users/${row.id}`)
-          if(res.data.meta.status===200){
+          let res = await this.$axios.delete(`users/${row.id}`);
+          if (res.data.meta.status === 200) {
             this.search();
           }
         })
@@ -226,7 +251,30 @@ export default {
             message: "已取消删除"
           });
         });
-    }
+    },
+    // 弹出角色框
+    async showRole(row){
+      this.roleFormVisible=true;
+      // 保存编辑的用户信息
+      this.editUser=row;
+      // 获取角色列表
+      let res=await this.$axios.get('roles');
+      this.rolelist=res.data.data;
+    },
+    // 分配角色
+    async submitRole(formName){
+      // 获取角色id
+      // 获取用户id
+     let res=await this.$axios.put(`users/${this.editUser.id}/role`,{
+        rid:this.editUser.role_name
+      });
+      if(res.data.meta.status===200){
+        // 关闭弹窗
+        this.roleFormVisible=false;
+        // 重新获取数据
+        this.search();
+      }
+    },
   },
   created() {
     this.search();

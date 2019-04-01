@@ -39,8 +39,9 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-
+// 注册全局组件
+import mybreak from './components/mybreak.vue'
+Vue.component('my-break',mybreak)
 
 // 导入路由
 import router from "./router.js";

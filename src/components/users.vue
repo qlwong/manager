@@ -1,11 +1,7 @@
 <template>
   <div class="user-container">
     <!-- 面包屑 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right" class="my_bread">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-    </el-breadcrumb>
+      <my-break sectitle="用户管理" thirdtitle="用户列表"></my-break>
     <!-- 搜索框 -->
     <el-row>
       <el-col :span="6">
@@ -297,10 +293,6 @@ export default {
 <style lang='scss'>
 .user-container {
   background-color: #eeeeff;
-  .my_bread {
-    height: 40px;
-    line-height: 40px;
-    background-color: #ddddee;
-  }
+ 
 }
 </style>

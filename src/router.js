@@ -18,7 +18,11 @@ import reports from "./components/reports.vue";
 let routes = [
   {
     path: "/login",
-    component: login
+    component: login,
+    // 路由元信息
+    meta:{
+      noLogin: true
+    }
   },
   {
     path: "/",
@@ -65,17 +69,17 @@ const router = new VueRouter({
   routes
 });
 
+// 导航守卫的设置
 router.beforeEach((to, from, next) => {
-  if (to.path == "/login"){
-       next()
-  }else{
+  if (to.meta.noLogin=== true) {
+    next();
+  } else {
     if (window.sessionStorage.getItem("token")) {
-         next()
+      next();
     } else {
       // 没有token.弹出提示
       Vue.prototype.$message.error("守卫导航发现你没有登录,请登录");
-      next('/login')
-      
+      next("/login");
     }
   }
 });

@@ -1,5 +1,6 @@
 // 导入axios
 import axios from "axios";
+import router from "./router";
 
 export default {
   install(Vue) {
@@ -23,7 +24,18 @@ export default {
 
     // 响应拦截
     axios.interceptors.response.use(
+      
       function(response) {
+        // 非法token判断
+        if(response.data.meta.msg==='无效token'&&response.data.meta.status===400){
+          // 打回登录页
+          Vue.prototype.$message.warning('伪造token,请回登录页')
+          // 删除伪造的token
+          window.sessionStorage.removeItem('token')
+          // 去登录页
+          router.push('/login')
+          return
+        }
         if ([200, 201, 204].indexOf(response.data.meta.status) != -1) {
           Vue.prototype.$message.success(response.data.meta.msg);
         } else {

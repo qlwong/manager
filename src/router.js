@@ -13,9 +13,14 @@ import goods from "./components/goods.vue";
 import orders from "./components/orders.vue";
 import params from "./components/params.vue";
 import reports from "./components/reports.vue";
+import error from "./components/error.vue";
 
 // 路由规则
 let routes = [
+  {
+    path: "/error",
+    component: error,
+  },
   {
     path: "/login",
     component: login,
@@ -71,6 +76,11 @@ const router = new VueRouter({
 
 // 导航守卫的设置
 router.beforeEach((to, from, next) => {
+  // 错误页面登录判断
+  if(to.matched.length===0){
+    Vue.prototype.$message.error('请输入正确的地址')
+    next('/error')
+  }
   if (to.meta.noLogin=== true) {
     next();
   } else {

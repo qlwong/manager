@@ -23,39 +23,39 @@ let routes = [
   {
     path: "/",
     component: index,
-    children:[
-          {
-               path:'users' ,
-               component:users
-          },
-          {
-               path:'roles' ,
-               component:roles
-          },
-          {
-               path:'rights' ,
-               component:rights
-          },
-          {
-               path:'orders' ,
-               component:orders
-          },
-          {
-               path:'goods' ,
-               component:goods
-          },
-          {
-               path:'categories' ,
-               component:categories
-          },
-          {
-               path:'params' ,
-               component:params
-          },
-          {
-               path:'reports' ,
-               component:reports
-          },
+    children: [
+      {
+        path: "users",
+        component: users
+      },
+      {
+        path: "roles",
+        component: roles
+      },
+      {
+        path: "rights",
+        component: rights
+      },
+      {
+        path: "orders",
+        component: orders
+      },
+      {
+        path: "goods",
+        component: goods
+      },
+      {
+        path: "categories",
+        component: categories
+      },
+      {
+        path: "params",
+        component: params
+      },
+      {
+        path: "reports",
+        component: reports
+      }
     ]
   }
 ];
@@ -65,5 +65,19 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.path == "/login"){
+       next()
+  }else{
+    if (window.sessionStorage.getItem("token")) {
+         next()
+    } else {
+      // 没有token.弹出提示
+      Vue.prototype.$message.error("守卫导航发现你没有登录,请登录");
+      next('/login')
+      
+    }
+  }
+});
 // 暴露出去
 export default router;

@@ -16,7 +16,7 @@
     <el-container class="my_container">
       <el-aside width="200px" class="my_aside">
         <el-menu default-active="users" router class="el-menu-vertical-demo">
-          <el-submenu :index="item.id" v-for="item in menuslist">
+          <el-submenu :index="item.id+''" v-for="item in menuslist">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{item.authName}}</span>

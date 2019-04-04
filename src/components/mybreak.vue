@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  name:'mybreak',
   props: ["sectitle", "thirdtitle"]
 };
 </script>

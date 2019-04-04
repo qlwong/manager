@@ -19,13 +19,13 @@ import error from "./components/error.vue";
 let routes = [
   {
     path: "/error",
-    component: error,
+    component: error
   },
   {
     path: "/login",
     component: login,
     // 路由元信息
-    meta:{
+    meta: {
       noLogin: true
     }
   },
@@ -77,11 +77,11 @@ const router = new VueRouter({
 // 导航守卫的设置
 router.beforeEach((to, from, next) => {
   // 错误页面登录判断
-  if(to.matched.length===0){
-    Vue.prototype.$message.error('请输入正确的地址')
-    next('/error')
+  if (to.matched.length === 0) {
+    Vue.prototype.$message.error("请输入正确的地址");
+    next("/error");
   }
-  if (to.meta.noLogin=== true) {
+  if (to.meta.noLogin === true) {
     next();
   } else {
     if (window.sessionStorage.getItem("token")) {

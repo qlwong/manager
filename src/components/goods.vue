@@ -60,7 +60,7 @@
 
 <script>
 export default {
-  name: "users",
+  name: "goods",
   data() {
     return{
       goodsList:[{},{}]
